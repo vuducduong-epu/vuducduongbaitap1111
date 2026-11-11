@@ -1,0 +1,62 @@
+USE BanHangDB;
+
+CREATE TABLE SanPham (
+    MaSP INT PRIMARY KEY,
+    TenSP NVARCHAR(100) NOT NULL,
+    DonGia DECIMAL(18,2) NOT NULL,
+    SoLuongTon INT NOT NULL
+);
+
+CREATE TABLE KhachHang (
+    MaKH INT PRIMARY KEY,
+    TenKH NVARCHAR(100) NOT NULL,
+    DiemTichLuy INT DEFAULT 0
+);
+
+CREATE TABLE HoaDon (
+    MaHD INT IDENTITY(1,1) PRIMARY KEY,
+    MaKH INT NULL,
+    NgayLap DATETIME DEFAULT GETDATE(),
+    TongTien DECIMAL(18,2) NOT NULL,
+    FOREIGN KEY (MaKH) REFERENCES KhachHang(MaKH)
+);
+
+CREATE TABLE ChiTietHoaDon (
+    MaHD INT,
+    MaSP INT,
+    SoLuong INT NOT NULL,
+    DonGia DECIMAL(18,2) NOT NULL,
+    ThanhTien DECIMAL(18,2) NOT NULL,
+    PRIMARY KEY (MaHD, MaSP),
+    FOREIGN KEY (MaHD) REFERENCES HoaDon(MaHD),
+    FOREIGN KEY (MaSP) REFERENCES SanPham(MaSP)
+);
+USE BanHangDB;
+
+INSERT INTO SanPham VALUES
+(1, N'iPhone 14', 15000000, 10),
+(2, N'Samsung A55', 9000000, 15),
+(3, N'Laptop Acer', 18000000, 5),
+(4, N'Chuột Logitech', 350000, 20),
+(5, N'Ban phim Gaming', 750000, 12);
+
+INSERT INTO KhachHang VALUES
+(1, N'Nguyen Van A', 0),
+(2, N'Tran Thi B', 10),
+(3, N'Le Van C', 5);
+SELECT * FROM SanPham;
+SELECT * FROM KhachHang;
+SELECT * FROM HoaDon;
+SELECT * FROM ChiTietHoaDon;
+USE BanHangDB;
+
+SELECT * FROM HoaDon;
+
+SELECT * FROM ChiTietHoaDon;
+
+SELECT * FROM SanPham;
+
+SELECT * FROM KhachHang;
+UPDATE SanPham
+SET SoLuongTon = 0
+WHERE MaSP = 3;
